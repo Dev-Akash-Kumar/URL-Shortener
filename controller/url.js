@@ -37,8 +37,32 @@ async function handleAnalytics(req, res) {
   });
 }
 
+async function handleSSR(req, res) {
+  const allURLs = await URL.find({});
+  return res.render("home", {
+    urls: allURLs,
+  });
+  /*
+  return res.end(`
+    <html>
+     <head></head>
+    <body>
+     <ol>
+      ${allURLs
+        .map(
+          (url) =>
+            `<li>${url.shortId} - ${url.redirectUrl} - ${url.visitHistory.length}</li>`
+        )
+        .join("")}
+     </ol>
+    </body>
+    </html>`);
+    */
+}
+
 module.exports = {
   handleGenerateNewShortURL,
   handleGetNewShortURL,
   handleAnalytics,
+  handleSSR,
 };
